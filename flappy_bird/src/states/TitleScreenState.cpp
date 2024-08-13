@@ -12,6 +12,8 @@
 #include <src/text_utilities.hpp>
 #include <src/states/StateMachine.hpp>
 #include <src/states/TitleScreenState.hpp>
+#include <src/Gamemodes/Hardmode.hpp>
+#include <src/Gamemodes/Normalmode.hpp>
 
 TitleScreenState::TitleScreenState(StateMachine* sm) noexcept
     : BaseState{sm}, world{std::make_shared<World>(false)}, game_mode_option{0}
@@ -25,28 +27,27 @@ if (event.type == sf::Event::KeyPressed)
     {
         if (event.key.code == sf::Keyboard::Up)
         {
-       
             game_mode_option = 0;
         }
         
         if (event.key.code == sf::Keyboard::Down)
         {
-        
             game_mode_option = 1;
         }
         
         if (event.key.code == sf::Keyboard::Enter)
         {
-            
+
+            std::cout<<game_mode_option<<std::endl;
             if (game_mode_option == 0)
             {
-
+                Settings::gamemode = std::make_shared<Normal>();
                 state_machine->change_state("count_down", world);
             }
             else if (game_mode_option == 1)
             {
-                
-                state_machine->change_state("count_down_hard", world);
+                Settings::gamemode = std::make_shared<Hard>();   
+                state_machine->change_state("count_down", world);
             }
         }
     }
@@ -54,6 +55,7 @@ if (event.type == sf::Event::KeyPressed)
 
 void TitleScreenState::update(float dt) noexcept
 {
+    std::cout<<"aqui vamos joya";
     world->update(dt);
 }
 
@@ -75,7 +77,9 @@ void TitleScreenState::render(sf::RenderTarget& target) const noexcept
 
     if(game_mode_option == 1)
     {
+
         render_text(target, Settings::VIRTUAL_WIDTH / 2, Settings::VIRTUAL_HEIGHT / 3 + 50, "Easy mode", Settings::MEDIUM_TEXT_SIZE, "flappy", sf::Color::White, true);
+        
         render_text(target, Settings::VIRTUAL_WIDTH / 2, Settings::VIRTUAL_HEIGHT / 3 + 100, "Hard mode", Settings::BIG_TEXT_SIZE, "flappy", sf::Color::Red, true);
     }
 

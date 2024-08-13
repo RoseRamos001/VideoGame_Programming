@@ -30,6 +30,8 @@ std::unordered_map<std::string, sf::Font> Settings::fonts{};
 
 sf::Music Settings::music{};
 
+std::shared_ptr<Gamemodes> Settings::gamemode{nullptr};
+
 void Settings::init()
 {
     Settings::load_textures();

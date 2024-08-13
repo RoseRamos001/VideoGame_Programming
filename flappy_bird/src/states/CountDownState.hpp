@@ -18,8 +18,10 @@ class CountDownState: public BaseState
 public:
     CountDownState(StateMachine* sm) noexcept;
 
-    void enter(std::shared_ptr<World> _world = nullptr, std::shared_ptr<Bird> _bird = nullptr) noexcept override;
+    void enter(std::shared_ptr<World> _world = nullptr, std::shared_ptr<Bird> _bird = nullptr, int score = 0) noexcept override;
 
+    void exit() noexcept override;
+    
     void update(float dt) noexcept override;
 
     void render(sf::RenderTarget& target) const noexcept override;

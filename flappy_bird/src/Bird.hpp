@@ -31,12 +31,14 @@ public:
 
     void render(sf::RenderTarget& target) const noexcept;
 
+    void set_vx(float _vx) noexcept;
 private:
     float x;
     float y;
     float width;
     float height;
     float vy;
+    float vx;
     sf::Sprite sprite;
     bool jumping{false};
 };

@@ -18,6 +18,9 @@ World::World(bool _generate_logs) noexcept
     ground.setPosition(0, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
     std::uniform_int_distribution<int> dist(0, 80);
     last_log_y = -Settings::LOG_HEIGHT + dist(rng) + 20;
+    time_to_spawn_logs = Settings::TIME_TO_SPAWN_LOGS;
+    time_to_spawn_powerups = Settings::TIME_TO_SPAWN_POWERUPS;
+    
 }
 
 void World::reset(bool _generate_logs) noexcept
@@ -67,7 +70,7 @@ void World::update(float dt) noexcept
     {
         logs_spawn_timer += dt;
 
-        if (logs_spawn_timer >= Settings::TIME_TO_SPAWN_LOGS)
+        if (logs_spawn_timer >= time_to_spawn_logs)
         {
             logs_spawn_timer = 0.f;
 
@@ -76,8 +79,18 @@ void World::update(float dt) noexcept
 
             last_log_y = y;
 
-            logs.push_back(log_factory.create(Settings::VIRTUAL_WIDTH, y));
-        }
+            logs.push_back(log_factory.create(Settings::VIRTUAL_WIDTH, y, Settings::gamemode->is_claping()));
+            time_to_spawn_logs = Settings::gamemode->log_generation_time();
+        }     
+    }
+
+    if(Settings::gamemode->spawn_powerups()){
+        powerup_spawn_timer += dt;
+        if (powerup_spawn_timer >= Settings::TIME_TO_SPAWN_POWERUPS)
+            {
+                powerup_spawn_timer = 0;
+                PowerUp_factory.create(Settings::VIRTUAL_WIDTH, Settings::VIRTUAL_HEIGHT/2);
+            }
     }
 
     background_x += -Settings::BACK_SCROLL_SPEED * dt;

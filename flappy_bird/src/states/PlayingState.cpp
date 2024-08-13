@@ -12,6 +12,9 @@
 #include <src/text_utilities.hpp>
 #include <src/states/StateMachine.hpp>
 #include <src/states/PlayingState.hpp>
+#include <src/Gamemodes/Gamemodes.hpp>
+#include <src/Gamemodes/Normalmode.hpp>
+#include <src/Gamemodes/Hardmode.hpp>
 
 PlayingState::PlayingState(StateMachine* sm) noexcept
     : BaseState{sm}
@@ -19,10 +22,9 @@ PlayingState::PlayingState(StateMachine* sm) noexcept
 
 }
 
-void PlayingState::enter(std::shared_ptr<World> _world, std::shared_ptr<Bird> _bird) noexcept
+void PlayingState::enter(std::shared_ptr<World> _world, std::shared_ptr<Bird> _bird, int score) noexcept
 {
     world = _world;
-    world->reset(true);
     
     if (_bird == nullptr)
     {
@@ -34,17 +36,19 @@ void PlayingState::enter(std::shared_ptr<World> _world, std::shared_ptr<Bird> _b
     else
     {
         bird = _bird;
-        bird->reset(Settings::VIRTUAL_WIDTH / 2 - Settings::BIRD_WIDTH / 2, Settings::VIRTUAL_HEIGHT / 2 - Settings::BIRD_HEIGHT / 2);
     }
 }
 
 void PlayingState::handle_inputs(const sf::Event& event) noexcept
 {
-    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+    Settings::gamemode->handle_input(event, bird);
+
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
     {
-        bird->jump();
+        state_machine->change_state("pause_state", get_world(), get_bird(), get_score());
     }
 }
+
 
 void PlayingState::update(float dt) noexcept
 {
@@ -71,4 +75,19 @@ void PlayingState::render(sf::RenderTarget& target) const noexcept
     world->render(target);
     bird->render(target);
     render_text(target, 20, 10, "Score: " + std::to_string(score), Settings::FLAPPY_TEXT_SIZE, "flappy", sf::Color::White);
+}
+
+std::shared_ptr<World> PlayingState::get_world() const noexcept
+{
+    return world;
+}
+
+std::shared_ptr<Bird> PlayingState::get_bird() const noexcept
+{
+    return bird;
+}
+
+int PlayingState::get_score() const noexcept
+{
+    return score;
 }

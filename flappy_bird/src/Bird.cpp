@@ -38,6 +38,7 @@ void Bird::jump() noexcept
     }
 }
 
+
 void Bird::update(float dt) noexcept
 {
     vy += Settings::GRAVITY * dt;
@@ -48,7 +49,8 @@ void Bird::update(float dt) noexcept
         vy = -Settings::JUMP_TAKEOFF_SPEED;
         jumping = false;
     }
-
+    
+    x += vx * dt;
     y += vy * dt;
     sprite.setPosition(x, y);
 }
@@ -56,4 +58,9 @@ void Bird::update(float dt) noexcept
 void Bird::render(sf::RenderTarget& target) const noexcept
 {
     target.draw(sprite);
+}
+
+void Bird::set_vx(float _vx) noexcept
+{
+    vx = _vx;
 }

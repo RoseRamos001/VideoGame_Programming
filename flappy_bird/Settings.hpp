@@ -14,6 +14,7 @@
 #include <filesystem>
 #include <string>
 #include <unordered_map>
+#include <src/Gamemodes/Gamemodes.hpp>
 
 namespace fs = std::filesystem;
 
@@ -47,11 +48,17 @@ struct Settings
     static constexpr int HUGE_TEXT_SIZE{56};
     static constexpr int BIG_TEXT_SIZE{20};
     static constexpr int FLAPPY_TEXT_SIZE{28};
+    static constexpr int CLAPPING_SPEED{50};
+    static constexpr float BIRD_HORIZONTAL_SPEED{100.f};
+    static constexpr float POWER_UP_DURATION{5.f};
+    static constexpr float TIME_TO_SPAWN_POWERUPS{20.f};
+    static std::shared_ptr<Gamemodes> gamemode;
 
     static std::unordered_map<std::string, sf::Texture> textures;
     static std::unordered_map<std::string, sf::SoundBuffer> sound_buffers;
     static std::unordered_map<std::string, sf::Sound> sounds;
     static std::unordered_map<std::string, sf::Font> fonts;
+
 
     static sf::Music music;
 

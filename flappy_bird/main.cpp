@@ -15,6 +15,7 @@
 
 int main()
 {
+    std::cout<<"main";
     Settings::init();
 
     Game game{};

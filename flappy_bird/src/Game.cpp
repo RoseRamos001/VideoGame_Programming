@@ -52,6 +52,7 @@ void Game::handle_inputs(const sf::Event& event) noexcept
 
 void Game::update(float dt) noexcept
 {
+    std::cout<<"game";
     state_machine.update(dt);
 }
 

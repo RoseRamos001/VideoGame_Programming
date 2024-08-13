@@ -24,7 +24,7 @@ public:
 
     StateMachine(const std::initializer_list<std::pair<std::string, StateBuilder>>& init_states = {}) noexcept;
 
-    void change_state(const std::string& state_name, std::shared_ptr<World> world = nullptr, std::shared_ptr<Bird> bird = nullptr) noexcept;
+    void change_state(const std::string& state_name, std::shared_ptr<World> world = nullptr, std::shared_ptr<Bird> bird = nullptr, int score = 0) noexcept;
 
     void handle_inputs(const sf::Event& event) noexcept;
     
@@ -38,7 +38,5 @@ public:
 
 private:
     std::unordered_map<std::string, StateBuilder> states;
-    std::shared_ptr<BaseState> current_state{std::make_shared<BaseState>(this)};
-    std::shared_ptr<World> paused_world;
-    std::shared_ptr<Bird> paused_bird;
+    std::shared_ptr<BaseState> current_state{std::make_shared<BaseState>(this)};   
 };

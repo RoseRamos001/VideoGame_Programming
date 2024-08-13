@@ -20,13 +20,19 @@ class PlayingState: public BaseState
 public:
     PlayingState(StateMachine* sm) noexcept;
 
-    void enter(std::shared_ptr<World> _world = nullptr, std::shared_ptr<Bird> _bird = nullptr) noexcept override;
+    void enter(std::shared_ptr<World> _world = nullptr, std::shared_ptr<Bird> _bird = nullptr, int _score = 0) noexcept override;
 
     void handle_inputs(const sf::Event& event) noexcept override;
 
     void update(float dt) noexcept override;
 
     void render(sf::RenderTarget& target) const noexcept override;
+
+    std::shared_ptr<World> get_world() const noexcept;
+
+    std::shared_ptr<Bird> get_bird() const noexcept;
+
+    int get_score() const noexcept;
 
 private:
     std::shared_ptr<Bird> bird;
