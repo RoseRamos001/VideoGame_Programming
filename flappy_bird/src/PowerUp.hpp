@@ -20,6 +20,8 @@ public:
     
     void reset(float _x, float _y) noexcept;
 
+    bool is_in_game() const noexcept;
+
 
 private:
     float x;
@@ -28,6 +30,7 @@ private:
     float height;
     sf::Sprite sprite;
     bool active{false};
-    float timer{0.f};
+    float timer{5.f};
+    bool in_game{true};
 
 };

@@ -51,7 +51,7 @@ struct Settings
     static constexpr int CLAPPING_SPEED{50};
     static constexpr float BIRD_HORIZONTAL_SPEED{100.f};
     static constexpr float POWER_UP_DURATION{5.f};
-    static constexpr float TIME_TO_SPAWN_POWERUPS{20.f};
+    static constexpr float TIME_TO_SPAWN_POWERUPS{1.f};
     static std::shared_ptr<Gamemodes> gamemode;
 
     static std::unordered_map<std::string, sf::Texture> textures;

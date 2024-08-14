@@ -55,7 +55,19 @@ void PlayingState::update(float dt) noexcept
     bird->update(dt);
     world->update(dt);
 
-    if (world->collides(bird->get_collision_rect()))
+    auto powerup = world->get_powerup();
+
+    if (powerup != nullptr)
+    {
+        if (bird->get_collision_rect().intersects(powerup->get_collision_rect()))
+        {
+            powerup->activate();
+        }
+    }
+
+    bool should_collide = powerup == nullptr || !powerup->is_active();
+    std::cout<<std::boolalpha<<should_collide<<std::endl;
+    if (should_collide && world->collides(bird->get_collision_rect()))
     {
         Settings::sounds["explosion"].play();
         Settings::sounds["hurt"].play();

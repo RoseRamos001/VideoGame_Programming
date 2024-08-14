@@ -1,4 +1,4 @@
-CXX = clang++ -std=c++17
+CXX = clang++ -std=c++17 -Ofast
 
 INCLUDE = -I.
 

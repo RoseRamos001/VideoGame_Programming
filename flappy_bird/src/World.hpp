@@ -38,6 +38,8 @@ public:
     void update(float dt) noexcept;
 
     void render(sf::RenderTarget& target) const noexcept;
+
+    std::shared_ptr<PowerUp> get_powerup();
 private:
     bool generate_logs;
     float time_to_spawn_logs;
@@ -53,6 +55,7 @@ private:
     Factory<PowerUp> PowerUp_factory;
 
     std::list<std::shared_ptr<LogPair>> logs;
+    std::shared_ptr<PowerUp> powerup;
 
     std::mt19937 rng;
 

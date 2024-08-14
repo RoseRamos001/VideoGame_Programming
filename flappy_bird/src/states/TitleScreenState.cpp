@@ -37,8 +37,6 @@ if (event.type == sf::Event::KeyPressed)
         
         if (event.key.code == sf::Keyboard::Enter)
         {
-
-            std::cout<<game_mode_option<<std::endl;
             if (game_mode_option == 0)
             {
                 Settings::gamemode = std::make_shared<Normal>();
@@ -55,7 +53,6 @@ if (event.type == sf::Event::KeyPressed)
 
 void TitleScreenState::update(float dt) noexcept
 {
-    std::cout<<"aqui vamos joya";
     world->update(dt);
 }
 

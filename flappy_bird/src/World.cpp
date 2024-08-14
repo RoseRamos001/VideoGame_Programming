@@ -20,6 +20,7 @@ World::World(bool _generate_logs) noexcept
     last_log_y = -Settings::LOG_HEIGHT + dist(rng) + 20;
     time_to_spawn_logs = Settings::TIME_TO_SPAWN_LOGS;
     time_to_spawn_powerups = Settings::TIME_TO_SPAWN_POWERUPS;
+    powerup_spawn_timer = 0;
     
 }
 
@@ -84,12 +85,12 @@ void World::update(float dt) noexcept
         }     
     }
 
-    if(Settings::gamemode->spawn_powerups()){
+    if (Settings::gamemode != nullptr && Settings::gamemode->spawn_powerups() && powerup == nullptr){
         powerup_spawn_timer += dt;
         if (powerup_spawn_timer >= Settings::TIME_TO_SPAWN_POWERUPS)
             {
                 powerup_spawn_timer = 0;
-                PowerUp_factory.create(Settings::VIRTUAL_WIDTH, Settings::VIRTUAL_HEIGHT/2);
+                powerup = PowerUp_factory.create(Settings::VIRTUAL_WIDTH, Settings::VIRTUAL_HEIGHT/2);
             }
     }
 
@@ -126,6 +127,17 @@ void World::update(float dt) noexcept
             ++it;
         }
     }
+    if (powerup != nullptr)
+    {
+        powerup->update(dt);
+        if (!powerup->is_in_game())
+        {
+            powerup = nullptr;
+        }
+
+        
+    }
+    
 }
 
 void World::render(sf::RenderTarget& target) const noexcept
@@ -138,4 +150,13 @@ void World::render(sf::RenderTarget& target) const noexcept
     }
 
     target.draw(ground);
+    if (powerup != nullptr)
+    {
+        powerup->render(target);
+    }
+    
+}
+std::shared_ptr<PowerUp> World::get_powerup()
+{
+    return powerup;
 }
